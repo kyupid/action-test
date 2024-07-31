@@ -1,0 +1,62 @@
+name: something good
+
+on:
+  push:
+    branches:
+      - proto
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  create_notion_page:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 깃 리포지토리 fetch 및 체크아웃
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 5  # 최근 5개 커밋만 가져옴
+
+      - name: 캐시에서 마지막 확인한 커밋 ID 복원
+        id: restore-cache
+        uses: actions/cache@v3
+        with:
+          path: .github/last_checked_commit
+          key: last-checked-commit
+
+      - name: 마지막으로 확인한 커밋 ID 가져오기
+        id: last-checked-commit
+        run: |
+          if [ -f .github/last_checked_commit ]; then
+            echo "last_checked_commit=$(cat .github/last_checked_commit)" >> $GITHUB_ENV
+          else
+            echo "last_checked_commit=HEAD^" >> $GITHUB_ENV
+          fi
+
+      - name: 새로운 커밋 목록 가져오기
+        id: get-commits
+        run: |
+          last_checked_commit=${{ env.last_checked_commit }}
+          commits=$(git rev-list ${last_checked_commit}..HEAD --abbrev-commit --no-merges)
+          echo "commits=${commits}" >> $GITHUB_OUTPUT
+
+      - name: 커밋 목록이 있는지 확인
+        run: |
+          if [ -z "${{ steps.get-commits.outputs.commits }}" ]; then
+            echo "No new commits to process."
+            exit 0
+          fi
+
+      - name: 커밋 목록 출력 (테스트)
+        run: |
+          echo "New commits to process:"
+          echo "${{ steps.get-commits.outputs.commits }}"
+
+      - name: 마지막으로 확인한 커밋 ID 기록
+        run: |
+          echo "${{ steps.get-commits.outputs.commits }}" | awk '{print $NF}' > .github/last_checked_commit
+
+      - name: 마지막 확인한 커밋 ID 캐시 저장
+        uses: actions/cache@v3
+        with:
+          path: .github/last_checked_commit
+          key: last-checked-commit

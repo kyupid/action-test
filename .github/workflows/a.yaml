@@ -12,7 +12,7 @@ jobs:
       - name: 깃 리포지토리 fetch 및 체크아웃
         uses: actions/checkout@v4
         with:
-          fetch-depth: 5  # 최근 5개 커밋만 가져옴
+          fetch-depth: 0
 
       - name: 캐시에서 마지막 확인한 커밋 ID 복원
         id: restore-cache
@@ -34,7 +34,7 @@ jobs:
         id: get-commits
         run: |
           last_checked_commit=${{ env.last_checked_commit }}
-          commits=$(git rev-list ${last_checked_commit}..HEAD --abbrev-commit --no-merges)
+          commits=$(git rev-list ${last_checked_commit}..HEAD --no-merges)
           echo "commits=$commits" >> $GITHUB_OUTPUT
 
       - name: 커밋 목록이 있는지 확인

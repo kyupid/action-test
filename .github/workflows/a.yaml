@@ -3,7 +3,7 @@ name: 커밋 목록 가져오기
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/5 10 * * *'
 
 jobs:
   create_notion_page:

@@ -1,6 +1,7 @@
 name: something good
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
 

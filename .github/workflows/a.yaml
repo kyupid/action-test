@@ -51,7 +51,8 @@ jobs:
 
       - name: 마지막으로 확인한 커밋 ID 기록
         run: |
-          echo "${{ steps.get-commits.outputs.commits }}" | awk -F, '{for(i=NF;i>0;i--) if($i!="") {print $i; exit}}' > .github/last_checked_commit
+          last_commit="${{ steps.get-commits.outputs.commits }}" | awk -F, '{for(i=NF;i>0;i--) if($i!="") {print $i; exit}}'
+          echo "${last_commit}" > .github/last_checked_commit
 
       - name: 마지막 확인한 커밋 ID 캐시 저장
         uses: actions/cache@v3

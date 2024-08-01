@@ -19,10 +19,11 @@ jobs:
         run: |
           last_checked_commit=${{ secrets.LAST_CHECKED_COMMIT }}
           if [ -z "$last_checked_commit" ]; then
-            last_checked_commit=$(git rev-list --max-parents=0 HEAD) # 처음 커밋 ID 가져오기
+            echo "last_checked_commit=HEAD^" >> $GITHUB_ENV
+          else
+            echo "last_checked_commit=$last_checked_commit" >> $GITHUB_ENV
           fi
-          echo "last_checked_commit=$last_checked_commit" >> $GITHUB_ENV
-
+          
       - name: 새로운 커밋 목록 가져오기
         id: get-commits
         run: |

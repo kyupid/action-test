@@ -34,7 +34,7 @@ jobs:
         id: get-commits
         run: |
           last_checked_commit=${{ env.last_checked_commit }}
-          commits=$(git rev-list ${last_checked_commit}..HEAD --no-merges)
+          commits=$(git rev-list ${last_checked_commit}..HEAD --no-merges | tr '\n' ',')
           echo "commits=$commits" >> $GITHUB_OUTPUT
 
       - name: 커밋 목록이 있는지 확인

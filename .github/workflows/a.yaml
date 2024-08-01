@@ -14,12 +14,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 캐시에서 마지막 확인한 커밋 ID 복원
-        id: restore-cache
-        uses: actions/cache@v3
+      - name: 마지막으로 확인한 커밋 ID 다운로드
+        uses: actions/download-artifact@v4
         with:
-          path: .github/last_checked_commit
-          key: last-checked-commit
+          name: last_checked_commit
+          path: .github/
+        continue-on-error: true
 
       - name: 마지막으로 확인한 커밋 ID 가져오기
         id: last-checked-commit
@@ -55,8 +55,8 @@ jobs:
           last_commit=$(echo "${{ steps.get-commits.outputs.commits }}" | awk -F, '{for(i=NF;i>0;i--) if($i!="") {print $i; exit}}')
           echo "${last_commit}" > .github/last_checked_commit
 
-      - name: 마지막 확인한 커밋 ID 캐시 저장
-        uses: actions/cache@v3
+      - name: 마지막 확인한 커밋 ID 업로드
+        uses: actions/upload-artifact@v4
         with:
+          name: last_checked_commit
           path: .github/last_checked_commit
-          key: last-checked-commit

@@ -52,4 +52,4 @@ jobs:
         run: |
           echo "${{ env.last_commit }}" | gh secret set LAST_CHECKED_COMMIT --repo $GITHUB_REPOSITORY
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.ONLY_RELEASE_NOTE_AUTOMATION_ACTION }}

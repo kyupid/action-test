@@ -1,9 +1,6 @@
 name: something good
 
 on:
-  push:
-    branches:
-      - proto
   schedule:
     - cron: '*/5 * * * *'
 

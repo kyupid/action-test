@@ -10,11 +10,6 @@ jobs:
   create_notion_page:
     runs-on: ubuntu-latest
     steps:
-      - name: step1
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 5  # 최근 5개 커밋만 가져옴
-
       - name: step2
         id: get-commits
         run: echo "commits=${{ join(github.event.commits.*.id, ',') }}" >> $GITHUB_OUTPUT

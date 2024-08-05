@@ -1,4 +1,4 @@
-name: 릴리즈 노트 자동 작성
+name: aaaaaa
 
 on:
   workflow_dispatch:
@@ -10,9 +10,12 @@ jobs:
   create_notion_page:
     runs-on: ubuntu-latest
     steps:
-      - name: step2
+      - name: Extract commit details
         id: get-commits
-        run: echo "commits=${{ join(github.event.commits.*.id, ',') }}" >> $GITHUB_OUTPUT
+        run: |
+          commits_json=$(jq -c '.commits' <<< "${{ toJson(github.event) }}")
+          echo "commits=$commits_json" >> $GITHUB_OUTPUT
 
-      - name: step3
-        run: echo ${{ steps.get-commits.outputs.commits }}
+      - name: Run Python script
+        run: |
+          python "$GITHUB_WORKSPACE/.github/scripts/main.py" '${{ steps.get-commits.outputs.commits }}'

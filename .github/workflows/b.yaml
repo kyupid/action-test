@@ -13,7 +13,7 @@ jobs:
       - name: Extract commit details
         id: get-commits
         run: |
-          commits_json=${{ toJson(github.event.commits) }}
+          commits_json='${{ toJson(github.event.commits) }}'
           echo "commits=$commits_json" >> $GITHUB_OUTPUT
 
       - name: Run Python script

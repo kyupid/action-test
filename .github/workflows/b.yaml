@@ -10,6 +10,12 @@ jobs:
   create_notion_page:
     runs-on: ubuntu-latest
     steps:
+      - name: step1
+        uses: actions/checkout@v4
+        with:
+         sparse-checkout: |
+          .github
+          
       - name: Extract commit details
         id: get-commits
         run: |

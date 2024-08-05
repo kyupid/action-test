@@ -10,10 +10,14 @@ def main():
     for commit in commits:
         author = commit['author']['email']
         message = commit['message']
+        if '\n\n' in message:
+            title, body = message.split('\n\n', 1)
+        else:
+            title, body = message, ""
         print(f"Processing commit by {author}")
-        print(f"Message: {message}")
+        print(f"Title: {title}")
+        print(f"Body: {body}")
         time.sleep(1)
 
 if __name__ == "__main__":
     main()
-

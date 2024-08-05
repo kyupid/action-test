@@ -17,4 +17,4 @@ jobs:
 
       - name: Run Python script
         run: |
-          python "$GITHUB_WORKSPACE/.github/scripts/main.py" "$(cat commits.json)"
+          python "$GITHUB_WORKSPACE/.github/workflows/scripts/main.py" "$(cat commits.json)"

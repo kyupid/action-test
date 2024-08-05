@@ -10,7 +10,7 @@ def main():
     for commit in commits:
         author = commit['author']['email']
         message = commit['message']
-        print(f"Processing commit by {email}")
+        print(f"Processing commit by {author}")
         print(f"Message: {message}")
         time.sleep(1)
 
